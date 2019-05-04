@@ -377,11 +377,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="X&#xf3;a GV"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btxoagvActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btxoagvi">
       <Properties>
         <Property name="text" type="java.lang.String" value="X&#xf3;a GV th&#x1ee9; i"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btxoagviActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btchen">
       <Properties>
@@ -395,21 +401,33 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btsuaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bttongluongpc">
       <Properties>
         <Property name="text" type="java.lang.String" value="T&#x1ed5;ng L&#x1b0;&#x1a1;ng + PC"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bttongluongpcActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bttbluongtg">
       <Properties>
         <Property name="text" type="java.lang.String" value="TB l&#x1b0;&#x1a1;ng GVTG"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bttbluongtgActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bttimphai">
       <Properties>
         <Property name="text" type="java.lang.String" value="T&#xec;m ph&#xe1;i"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bttimphaiActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btxoangay">
       <Properties>

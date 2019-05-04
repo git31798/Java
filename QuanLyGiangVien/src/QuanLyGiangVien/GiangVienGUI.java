@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javafx.scene.paint.Color;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -208,8 +209,18 @@ public class GiangVienGUI extends javax.swing.JFrame {
         });
 
         btxoagv.setText("Xóa GV");
+        btxoagv.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btxoagvActionPerformed(evt);
+            }
+        });
 
         btxoagvi.setText("Xóa GV thứ i");
+        btxoagvi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btxoagviActionPerformed(evt);
+            }
+        });
 
         btchen.setText("Chèn");
         btchen.addActionListener(new java.awt.event.ActionListener() {
@@ -219,12 +230,32 @@ public class GiangVienGUI extends javax.swing.JFrame {
         });
 
         btsua.setText("Sửa");
+        btsua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btsuaActionPerformed(evt);
+            }
+        });
 
         bttongluongpc.setText("Tổng Lương + PC");
+        bttongluongpc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttongluongpcActionPerformed(evt);
+            }
+        });
 
         bttbluongtg.setText("TB lương GVTG");
+        bttbluongtg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttbluongtgActionPerformed(evt);
+            }
+        });
 
         bttimphai.setText("Tìm phái");
+        bttimphai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttimphaiActionPerformed(evt);
+            }
+        });
 
         btxoangay.setText("Xóa Ngày");
 
@@ -494,6 +525,31 @@ public class GiangVienGUI extends javax.swing.JFrame {
 
     private void btchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btchenActionPerformed
         // TODO add your handling code here:
+        String ma = this.tfma.getText();
+        String ht = this.tfhoten.getText();
+        int sg = Integer.parseInt(this.tfsogio.getText());
+        boolean phai = true;
+        if (this.rbnu.isSelected()) {
+            phai = false;
+        }
+        GiangVien v;
+        if (this.rbcohuu.isSelected()) {
+            DateFormat df = new SimpleDateFormat("yyyy/mm/dd");
+            Date nv = new Date();
+            try {
+                nv = df.parse(this.tfngayvao.getText());
+            } catch (ParseException ex) {
+            }
+            double luongCB = Double.parseDouble(this.tfluongcb.getText());
+            v = new GVCoHuu(nv, luongCB, ma, ht, sg, phai);
+        } else {
+            String maHD = this.tfmahopdong.getText();
+            v = new GVThinhGiang(maHD, ma, ht, sg, phai);
+        }
+        int i = this.jTable1.getSelectedRow();
+        ds.chen(i, v);
+        xuatTable(ds.getM());
+
     }//GEN-LAST:event_btchenActionPerformed
 
     private void bttimngayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttimngayActionPerformed
@@ -545,14 +601,80 @@ public class GiangVienGUI extends javax.swing.JFrame {
         if (v != null) {
             JOptionPane.showMessageDialog(this, v.toString());
         } else {
-            JOptionPane.showConfirmDialog(this, "Không tìm thấy GV" + this.tfma.getText());
+            JOptionPane.showConfirmDialog(this, "Không tìm thấy GV mã " + this.tfma.getText());
         }
     }//GEN-LAST:event_bttimmaActionPerformed
 
     private void btxuatgviActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btxuatgviActionPerformed
         // TODO add your handling code here:
-        
+        int i = this.jTable1.getSelectedRow();
+        JOptionPane.showMessageDialog(this, ds.getGiangVien(i));
     }//GEN-LAST:event_btxuatgviActionPerformed
+
+    private void btxoagvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btxoagvActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btxoagvActionPerformed
+
+    private void btxoagviActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btxoagviActionPerformed
+        // TODO add your handling code here:
+        int i = this.jTable1.getSelectedRow();
+        dm.removeRow(i);
+        ds.xoaGVThui(i);
+    }//GEN-LAST:event_btxoagviActionPerformed
+
+    private void btsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btsuaActionPerformed
+        // TODO add your handling code here:
+        String ma = this.tfma.getText();
+        String ht = this.tfhoten.getText();
+        int sg = Integer.parseInt(this.tfsogio.getText());
+        boolean phai = true;
+        if (this.rbnu.isSelected()) {
+            phai = false;
+        }
+        GiangVien v;
+        int i = this.jTable1.getSelectedRow();
+        if (this.rbcohuu.isSelected()) {
+            DateFormat df = new SimpleDateFormat("yyyy/mm/dd");
+            Date nv = new Date();
+            try {
+                nv = df.parse(this.tfngayvao.getText());
+            } catch (ParseException ex) {
+            }
+            double luongCB = Double.parseDouble(this.tfluongcb.getText());
+            v = new GVCoHuu(nv, luongCB, ma, ht, sg, phai);
+            dm.removeRow(i);
+            dm.insertRow(i, new Object[]{ma, ht, sg, phai, nv, luongCB});
+        } else {
+            String maHD = this.tfmahopdong.getText();
+            v = new GVThinhGiang(maHD, ma, ht, sg, phai);
+            dm.removeRow(i);
+            dm.insertRow(i, new Object[]{ma, ht, sg, phai, maHD});
+        }
+        ds.sua(i, v);
+
+    }//GEN-LAST:event_btsuaActionPerformed
+
+    private void bttongluongpcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttongluongpcActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Tổng Lương + PC của GV: " + ds.tongLuongPC());
+    }//GEN-LAST:event_bttongluongpcActionPerformed
+
+    private void bttbluongtgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttbluongtgActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Trung bình lương GVTG: " + ds.tbLuong());
+    }//GEN-LAST:event_bttbluongtgActionPerformed
+
+    private void bttimphaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttimphaiActionPerformed
+        // TODO add your handling code here:
+
+        if (this.rbnu.isSelected()) {
+            JOptionPane.showConfirmDialog(this, "Danh sách phái " + (this.rbnu.isSelected()?"Nam":"Nữ") + "\n" + ds.timPhai(false));
+        } else {
+            JOptionPane.showConfirmDialog(this, "Danh sách phái " + (this.rbnam.isSelected()?"Nam":"Nữ") + "\n" + ds.timPhai(true));
+
+        }
+    }//GEN-LAST:event_bttimphaiActionPerformed
 
     /**
      * @param args the command line arguments
