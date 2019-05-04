@@ -10,6 +10,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.paint.Color;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -41,7 +44,8 @@ public class GiangVienGUI extends javax.swing.JFrame {
         }
         for (GiangVien v : m) {
             if (v instanceof GVCoHuu) {
-                dm.addRow(new Object[]{v.getMa(), v.getHoTen(), v.getSoGio(), (v.isPhai() ? "Nam" : "Nữ"), ((GVCoHuu) v).getNgayVao(), ((GVCoHuu) v).getLuongCB()});
+                DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+                dm.addRow(new Object[]{v.getMa(), v.getHoTen(), v.getSoGio(), (v.isPhai() ? "Nam" : "Nữ"), df.format(((GVCoHuu) v).getNgayVao()), ((GVCoHuu) v).getLuongCB()});
             } else {
                 dm.addRow(new Object[]{v.getMa(), v.getHoTen(), v.getSoGio(), (v.isPhai() ? "Nam" : "Nữ"), "", "", ((GVThinhGiang) v).getMaHopDong()});
             }
@@ -258,6 +262,11 @@ public class GiangVienGUI extends javax.swing.JFrame {
         });
 
         btxoangay.setText("Xóa Ngày");
+        btxoangay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btxoangayActionPerformed(evt);
+            }
+        });
 
         bttimngay.setText("Tìm ngày");
         bttimngay.addActionListener(new java.awt.event.ActionListener() {
@@ -493,7 +502,7 @@ public class GiangVienGUI extends javax.swing.JFrame {
         }
         GiangVien v;
         if (this.rbcohuu.isSelected()) {
-            DateFormat df = new SimpleDateFormat("yyyy/mm/dd");
+            DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
             Date nv = new Date();
             try {
                 nv = df.parse(this.tfngayvao.getText());
@@ -534,7 +543,7 @@ public class GiangVienGUI extends javax.swing.JFrame {
         }
         GiangVien v;
         if (this.rbcohuu.isSelected()) {
-            DateFormat df = new SimpleDateFormat("yyyy/mm/dd");
+            DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
             Date nv = new Date();
             try {
                 nv = df.parse(this.tfngayvao.getText());
@@ -554,6 +563,13 @@ public class GiangVienGUI extends javax.swing.JFrame {
 
     private void bttimngayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttimngayActionPerformed
         // TODO add your handling code here:
+        DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+        Date nv = new Date();
+        try {
+            nv = df.parse(this.tfngayvao.getText());
+        } catch (ParseException ex) {
+        }
+        JOptionPane.showConfirmDialog(this, ds.timNgaySau(nv));
     }//GEN-LAST:event_bttimngayActionPerformed
 
     private void btxuattableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btxuattableActionPerformed
@@ -581,7 +597,7 @@ public class GiangVienGUI extends javax.swing.JFrame {
         }
         if (v instanceof GVCoHuu) {
             this.rbcohuu.setSelected(true);
-            DateFormat df = new SimpleDateFormat("yyyy/mm/dd");
+            DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
             this.tfngayvao.setText(df.format(((GVCoHuu) v).getNgayVao()));
             this.tfluongcb.setText("" + ((GVCoHuu) v).getLuongCB());
         } else {
@@ -635,7 +651,7 @@ public class GiangVienGUI extends javax.swing.JFrame {
         GiangVien v;
         int i = this.jTable1.getSelectedRow();
         if (this.rbcohuu.isSelected()) {
-            DateFormat df = new SimpleDateFormat("yyyy/mm/dd");
+            DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
             Date nv = new Date();
             try {
                 nv = df.parse(this.tfngayvao.getText());
@@ -669,12 +685,26 @@ public class GiangVienGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         if (this.rbnu.isSelected()) {
-            JOptionPane.showConfirmDialog(this, "Danh sách phái " + (this.rbnu.isSelected()?"Nam":"Nữ") + "\n" + ds.timPhai(false));
+            JOptionPane.showConfirmDialog(this, "Danh sách phái " + (this.rbnu.isSelected() ? "Nam" : "Nữ") + "\n" + ds.timPhai(false));
         } else {
-            JOptionPane.showConfirmDialog(this, "Danh sách phái " + (this.rbnam.isSelected()?"Nam":"Nữ") + "\n" + ds.timPhai(true));
+            JOptionPane.showConfirmDialog(this, "Danh sách phái " + (this.rbnam.isSelected() ? "Nam" : "Nữ") + "\n" + ds.timPhai(true));
 
         }
     }//GEN-LAST:event_bttimphaiActionPerformed
+
+    private void btxoangayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btxoangayActionPerformed
+        // TODO add your handling code here:
+        DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+        Date ngay = new Date();
+        try {
+            ngay = df.parse(this.tfngayvao.getText());
+        } catch (ParseException ex) {
+        }
+        Vector vt = ds.xoaNgay(ngay);
+        for (int i = vt.size() - 1; i >= 0; i--) {
+            dm.removeRow(i);
+        }
+    }//GEN-LAST:event_btxoangayActionPerformed
 
     /**
      * @param args the command line arguments

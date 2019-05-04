@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.Vector;
 
 public class DSGV {
 
@@ -27,7 +28,7 @@ public class DSGV {
 
     // 2.Xoá GV có mã chỉ định
     public int xoaMa(String ma) {
-        for (int i=0;i<m.size();i++) {
+        for (int i = 0; i < m.size(); i++) {
             if (ma.equals(m.get(i).getMa())) {
                 m.remove(i);
                 return i;
@@ -36,7 +37,7 @@ public class DSGV {
         return -1;
 
     }
-    
+
     // 3. Tính Trung bình (lương + phụ cấp) của GV cơ hữu
     public double tbLuongPC() {
         double s = 0;
@@ -59,7 +60,6 @@ public class DSGV {
         }
         return null;
     }
-   
 
     // 5.Hiển thị danh sách GV cơ hữu bao gồm lương và phụ cấp
     public String xuatCoHuu() {
@@ -91,10 +91,12 @@ public class DSGV {
         }
         return s;
     }
+
     // 7. Trả về GV thứ i
-    public GiangVien getGiangVien(int i){
+    public GiangVien getGiangVien(int i) {
         return m.get(i);
     }
+
     // 9.xóa GV
     public void xoaGV(GiangVien v) {
         m.remove(v);
@@ -148,26 +150,36 @@ public class DSGV {
         return s;
     }
 
-    // 17. Xóa GV co huu vao lam dung ngay chi dinh
-    public void xoaNgay(Date ngay) {
-        String s = "";
-        GVCoHuu ch = new GVCoHuu();
-        for (GiangVien v : m) {
-            if (v instanceof GVCoHuu) {
-                if (ngay.compareTo(ch.getNgayVao()) == 0) {
-                    m.remove(v);
-                }
+    // 17. Xóa GV cơ hữu vào làm đúng ngày chỉ định
+    public Vector xoaNgay(Date ngay) {
+        Vector vt = new Vector();
+        for (int i = 0; i < m.size(); i++) {
+            if (((GVCoHuu) m.get(i)).getNgayVao().compareTo(ngay) == 0) {
+                m.remove(i);
+                vt.add(i);
             }
         }
+        return vt;
     }
 
-    // 19. Tìm GV cơ hữu sau ngày chỉ định
-    public String timNgay(Date ngay) {
+    // Xóa GV cơ hữu vào làm sau ngày chỉ định
+    public Vector xoaNgaySau(Date ngay) {
+        Vector vt = new Vector();
+        for (int i = 0; i < m.size(); i++) {
+            if (((GVCoHuu) m.get(i)).getNgayVao().compareTo(ngay) > 0) {
+                m.remove(i);
+                vt.add(i);
+            }
+        }
+        return vt;
+    }
+
+// 19. Tìm GV cơ hữu sau ngày chỉ định
+    public String timNgaySau(Date ngay) {
         String s = "";
-        GVCoHuu ch = new GVCoHuu();
         for (GiangVien v : m) {
             if (v instanceof GVCoHuu) {
-                if (ngay.compareTo(ch.getNgayVao()) <= 0) {
+                if (ngay.compareTo(((GVCoHuu) v).getNgayVao()) <= 0) {
                     s += v.toString() + "\n";
                 }
             }
@@ -236,7 +248,6 @@ public class DSGV {
             ds.them(v);
             sc.nextLine();
         }
-        
 
     }
 }

@@ -39,7 +39,7 @@ public class GVCoHuu extends GiangVien {
 
     @Override
     public String toString() {
-        DateFormat df = new SimpleDateFormat("yyyy/mm/dd");
+        DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
         return "GVCoHuu{" + super.toString() + ", ngayVao=" + df.format(ngayVao) + ", luongCB=" + luongCB;
     }
 
