@@ -15,7 +15,7 @@ import java.util.Vector;
 
 public class DSGV {
 
-    private ArrayList<GiangVien> m = new ArrayList<GiangVien>();
+    private ArrayList<GiangVien> m = new ArrayList<>();
 
     public ArrayList<GiangVien> getM() {
         return m;
@@ -61,35 +61,56 @@ public class DSGV {
         return null;
     }
 
-    // 5.Hiển thị danh sách GV cơ hữu bao gồm lương và phụ cấp
-    public String xuatCoHuu() {
-        String s = "";
+    // 4.Tìm GV có mã cho chỉ định Arr
+    public ArrayList<GiangVien> timMaArr(String ma) {
+        ArrayList<GiangVien> arr = new ArrayList<>();
         for (GiangVien v : m) {
-            if (v instanceof GVCoHuu) {
-                s += v.toString() + ", Lương: " + v.luong() + ", Phụ cấp: " + v.phuCap() + "}" + "\n";
-            }
-        }
-        return s;
-    }
-
-    // 5. Hiển thị danh sách GV cơ hữu bao gồm lương và phụ cấp bằng Array
-    public ArrayList<GiangVien> xuatGVCoHuuArr() {
-        ArrayList<GiangVien> arr = new ArrayList<GiangVien>();
-        for (GiangVien v : m) {
-            if (v instanceof GVCoHuu) {
+            if (ma.equals(v.getMa())) {
                 arr.add(v);
             }
         }
         return arr;
     }
 
-    // 6.Hiển thị danh sách GV bao gồm lương và phụ cấp
+    // 5.Hiển thị danh sách GV cơ hữu
+    public String xuatCoHuu() {
+        String s = "";
+        for (GiangVien v : m) {
+            if (v instanceof GVCoHuu) {
+                s += v.toString();
+            }
+        }
+        return s;
+    }
+
+    // 5.Hiển thị danh sách GV cơ hữu Arr
+    public ArrayList<GiangVien> xuatCoHuuArr() {
+        ArrayList<GiangVien> arr = new ArrayList<>();
+        for (GiangVien v : m) {
+            if (v instanceof GVCoHuu) {
+                arr.add(v);
+
+            }
+        }
+        return arr;
+    }
+
+    // 6.Hiển thị danh sách GV 
     public String xuat() {
         String s = "";
         for (GiangVien v : m) {
-            s += v.toString() + ", Lương: " + v.luong() + ", Phụ cấp: " + v.phuCap() + "}" + "\n";
+            s += v.toString();
         }
         return s;
+    }
+
+    // 6.Hiển thị danh sách GV Arr
+    public ArrayList<GiangVien> xuatArr() {
+        ArrayList<GiangVien> arr = new ArrayList<>();
+        for (GiangVien v : m) {
+            arr.add(v);
+        }
+        return arr;
     }
 
     // 7. Trả về GV thứ i
@@ -150,6 +171,17 @@ public class DSGV {
         return s;
     }
 
+    // 16. tìm GV có phái chỉ định Arr
+    public ArrayList<GiangVien> timPhaiArr(boolean phai) {
+        ArrayList<GiangVien> arr = new ArrayList<>();
+        for (GiangVien v : m) {
+            if (phai == v.isPhai()) {
+                arr.add(v);
+            }
+        }
+        return arr;
+    }
+
     // 17. Xóa GV cơ hữu vào làm đúng ngày chỉ định
     public Vector xoaNgay(Date ngay) {
         Vector vt = new Vector();
@@ -187,6 +219,19 @@ public class DSGV {
         return s;
     }
 
+    // 19. Tìm GV cơ hữu sau ngày chỉ định Arr
+    public ArrayList<GiangVien> timNgaySauArr(Date ngay) {
+        ArrayList<GiangVien> arr = new ArrayList<>();
+        for (GiangVien v : m) {
+            if (v instanceof GVCoHuu) {
+                if (ngay.compareTo(((GVCoHuu) v).getNgayVao()) <= 0) {
+                    arr.add(v);
+                }
+            }
+        }
+        return arr;
+    }
+
     // 20.Tìm GV có họ tên chỉ định
     public String timHoTen(String hoten) {
         String s = "";
@@ -196,6 +241,17 @@ public class DSGV {
             }
         }
         return s;
+    }
+
+    // 20.Tìm GV có họ tên chỉ định Arr
+    public ArrayList<GiangVien> timHoTenArr(String hoten) {
+        ArrayList<GiangVien> arr = new ArrayList<>();
+        for (GiangVien v : m) {
+            if (hoten.equals(v.getHoTen())) {
+                arr.add(v);
+            }
+        }
+        return arr;
     }
 
     // 21.Tìm GV cuối cùng có lương cao nhất

@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
  * @author ASUS
  */
 public class GiangVienGUI extends javax.swing.JFrame {
-
+    
     DSGV ds = new DSGV();
     DefaultTableModel dm = new DefaultTableModel();
 
@@ -35,9 +35,9 @@ public class GiangVienGUI extends javax.swing.JFrame {
         this.jTable1.setModel(dm);
         String[] tenCot = {"Mã", "Họ tên", "Số giờ", "Phái", "Ngày vào", "Lương CB", "Mã hợp đồng"};
         dm.setColumnIdentifiers(tenCot);
-
+        
     }
-
+    
     private void xuatTable(ArrayList<GiangVien> m) {
         for (int i = dm.getRowCount() - 1; i >= 0; i--) {
             dm.removeRow(i);
@@ -51,7 +51,7 @@ public class GiangVienGUI extends javax.swing.JFrame {
             }
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -276,8 +276,18 @@ public class GiangVienGUI extends javax.swing.JFrame {
         });
 
         bttimhoten.setText("Tìm họ Tên");
+        bttimhoten.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttimhotenActionPerformed(evt);
+            }
+        });
 
         btluongmax.setText("Lương max");
+        btluongmax.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btluongmaxActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Phái");
 
@@ -526,6 +536,7 @@ public class GiangVienGUI extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Không tìm thấy GV có mã" + this.tfma.getText());
         }
+        this.xuatTable(ds.getM());
     }//GEN-LAST:event_btxoamaActionPerformed
 
     private void rbnuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbnuActionPerformed
@@ -557,29 +568,34 @@ public class GiangVienGUI extends javax.swing.JFrame {
         }
         int i = this.jTable1.getSelectedRow();
         ds.chen(i, v);
-        xuatTable(ds.getM());
+        this.xuatTable(ds.getM());
 
     }//GEN-LAST:event_btchenActionPerformed
 
     private void bttimngayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttimngayActionPerformed
         // TODO add your handling code here:
         DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
-        Date nv = new Date();
         try {
-            nv = df.parse(this.tfngayvao.getText());
+            //JOptionPane.showConfirmDialog(this, ds.timNgaySau(df.parse(this.tfngayvao.getText())));
+            ArrayList<GiangVien> arr = ds.timNgaySauArr(df.parse(this.tfngayvao.getText()));
+            this.xuatTable(arr);
         } catch (ParseException ex) {
         }
-        JOptionPane.showConfirmDialog(this, ds.timNgaySau(nv));
+
     }//GEN-LAST:event_bttimngayActionPerformed
 
     private void btxuattableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btxuattableActionPerformed
         // TODO add your handling code here:
-        this.xuatTable(ds.getM());
+        ArrayList<GiangVien> arr = ds.xuatArr();
+        this.xuatTable(arr);
     }//GEN-LAST:event_btxuattableActionPerformed
 
     private void btxuatchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btxuatchActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "Danh sách GV Cơ hữu:\n" + ds.xuatCoHuu());
+        //JOptionPane.showMessageDialog(this, "Danh sách GV Cơ hữu:\n" + ds.xuatCoHuu());
+        ArrayList<GiangVien> arr = ds.xuatCoHuuArr();
+        this.xuatTable(arr);
+        
 
     }//GEN-LAST:event_btxuatchActionPerformed
 
@@ -613,12 +629,14 @@ public class GiangVienGUI extends javax.swing.JFrame {
 
     private void bttimmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttimmaActionPerformed
         // TODO add your handling code here:
-        GiangVien v = ds.timMa(this.tfma.getText());
-        if (v != null) {
-            JOptionPane.showMessageDialog(this, v.toString());
+        ArrayList<GiangVien> arr = ds.timMaArr(this.tfma.getText());
+        if (arr != null) {
+            //JOptionPane.showMessageDialog(this, v.toString());
+            this.xuatTable(arr);
         } else {
             JOptionPane.showConfirmDialog(this, "Không tìm thấy GV mã " + this.tfma.getText());
         }
+
     }//GEN-LAST:event_bttimmaActionPerformed
 
     private void btxuatgviActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btxuatgviActionPerformed
@@ -668,6 +686,7 @@ public class GiangVienGUI extends javax.swing.JFrame {
             dm.insertRow(i, new Object[]{ma, ht, sg, phai, maHD});
         }
         ds.sua(i, v);
+        this.xuatTable(ds.getM());
 
     }//GEN-LAST:event_btsuaActionPerformed
 
@@ -685,10 +704,13 @@ public class GiangVienGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         if (this.rbnu.isSelected()) {
-            JOptionPane.showConfirmDialog(this, "Danh sách phái " + (this.rbnu.isSelected() ? "Nam" : "Nữ") + "\n" + ds.timPhai(false));
+            //JOptionPane.showConfirmDialog(this, "Danh sách phái " + (this.rbnu.isSelected() ? "Nam" : "Nữ") + "\n" + ds.timPhai(false));
+            ArrayList<GiangVien> arr = ds.timPhaiArr(false);
+            this.xuatTable(arr);
         } else {
-            JOptionPane.showConfirmDialog(this, "Danh sách phái " + (this.rbnam.isSelected() ? "Nam" : "Nữ") + "\n" + ds.timPhai(true));
-
+            // JOptionPane.showConfirmDialog(this, "Danh sách phái " + (this.rbnam.isSelected() ? "Nam" : "Nữ") + "\n" + ds.timPhai(true));
+            ArrayList<GiangVien> arr = ds.timPhaiArr(true);
+            this.xuatTable(arr);
         }
     }//GEN-LAST:event_bttimphaiActionPerformed
 
@@ -704,7 +726,20 @@ public class GiangVienGUI extends javax.swing.JFrame {
         for (int i = vt.size() - 1; i >= 0; i--) {
             dm.removeRow(i);
         }
+        this.xuatTable(ds.getM());
     }//GEN-LAST:event_btxoangayActionPerformed
+
+    private void bttimhotenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttimhotenActionPerformed
+        // TODO add your handling code here:
+        //JOptionPane.showMessageDialog(this, ds.timHoTen(this.tfhoten.getText()));
+        ArrayList<GiangVien> arr = ds.timHoTenArr(this.tfhoten.getText());
+        this.xuatTable(arr);
+    }//GEN-LAST:event_bttimhotenActionPerformed
+
+    private void btluongmaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btluongmaxActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, ds.maxLuong());
+    }//GEN-LAST:event_btluongmaxActionPerformed
 
     /**
      * @param args the command line arguments

@@ -449,11 +449,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="T&#xec;m h&#x1ecd; T&#xea;n"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bttimhotenActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btluongmax">
       <Properties>
         <Property name="text" type="java.lang.String" value="L&#x1b0;&#x1a1;ng max"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btluongmaxActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
       <Properties>
